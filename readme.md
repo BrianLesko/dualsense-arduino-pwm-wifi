@@ -1,12 +1,10 @@
 
-# Stepper motor control - Dualsense to Microcontroller communication through wifi
-This code primarily implements stepper motor control using a PS5 remote. 
-Secondarily, this code implements communication between a PS5 remote and a microcontroller through wifi
-
+# wireless arduino control using a PS5 controller
+Control a Pulse Width modulation (PWM) pin of an Arduino ESP32 microcontroller using a Dualsense PS5 remote, wirelessly over a wifi network. 
 
 &nbsp;
 
-<div align="center"><img src="docs/preview.png" width="800"></div>
+<div align="center"><img src="docs/preview.gif" width="800"></div>
 
 &nbsp;
 
@@ -16,20 +14,17 @@ This code uses the following libraries:
 - `streamlit`: for building the user interface.
 - `numpy`: for creating arrays.
 - `matplotlib`: for plotting the stepper motor visualization
-- `modern robotics`: for linear algebra to streamline the motor visualization
 - `hidapi`: for accessing usb connections on the host device
-
 
 &nbsp;
 
 ## Usage
 1. fork the repository
 2. change the wifi SSID and password as well as the PS5 remote vendorID and productID in 'app.py'
-3. If you want to control a real stepper motor, set up your microcontroller to connect to your network and listen for incoming UDP data. Check out another of my repositories for this solution.
-4. Run the following commands:
+4. Run the arduino nano.py file on an arduino nano esp32 running mircopython
+5. run the streamlit app with the following command in your terminal
 ```
-pip install --upgrade streamlit numpy matplotlib modern_robotics hidapi
-streamlit run app.py
+Streamlit run app.py
 ```
 
 This will start the local Streamlit server, and you can access the interface by opening a web browser and navigating to `http://localhost:8501`.
@@ -41,11 +36,11 @@ This will start the local Streamlit server, and you can access the interface by 
 The app as follows:
 1. The hidapi library is used to initiate a connection to the PS5 controller
 2. The dualsense class is used to decode the received bytes
-3. the modern robotics library is used to calculate transformation matricies
-4. the matplotlib library is used to create a visualization of the stepper angle
+4. the matplotlib library is used to create a visualization of the received signal from the triggers
 3. Streamlit is used to display the figure
 4. The ethernet class and UDP Socket communication is used to send the bytes to an IP address
 5. The app loops indefinitely until quit
+6. The Arduino connects to the internet, then receives the UDP signal and decodes it, then sets its PWM pin appropriately. 
 
 &nbsp;
 
