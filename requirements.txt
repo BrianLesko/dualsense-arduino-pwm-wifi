@@ -1,0 +1,5 @@
+streamlit
+numpy
+matplotlib
+modern_robotics
+hidapi
