@@ -54,7 +54,7 @@ def main():
         bytes = str(power).encode()
         st.session_state.client.s.sendto(bytes, ('192.168.1.75', 12345))
 
-        # update a slider with the current control input
+        # Update a plot with the current Input signal, Power.
         with image_spot:
             data.set_data(0,power)
             history.append(power)
