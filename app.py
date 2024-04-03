@@ -19,6 +19,7 @@ def main():
     st.title("Control Input")
     col1, col2, col3 = st.columns([1,4,1])
     with col2: image_spot = st.empty()
+    Message = st.empty()
     
     # Setting up the dualsense controller connection
     vendorID, productID = int("0x054C", 16), int("0x0CE6", 16)
@@ -48,17 +49,23 @@ def main():
         if abs(ds.R2) > 4:
             power = ds.R2
 
-        # Send the command via UDP/IP
-        if 'client' not in st.session_state:
-             st.session_state.client = eth("client",'192.168.1.75', 12345)
+        # encode the button press as a string
         bytes = str(power).encode()
-        st.session_state.client.s.sendto(bytes, ('192.168.1.75', 12345))
+
+        # Send the command via UDP/IP
+        try:
+            if 'client' not in st.session_state:
+                st.session_state.client = eth("client",'192.168.1.75', 12345)
+            st.session_state.client.s.sendto(bytes, ('192.168.1.75', 12345))
+        except Exception as e:
+            with Message: 
+                st.error("Error occurred while sending the UDP signal. Make sure the IP address and port are correctly set in the python script.")
 
         # Update a plot with the current Input signal, Power.
         with image_spot:
             data.set_data(0,power)
             history.append(power)
-            ax.set_ylim([0, max(history)+1])
+            ax.set_ylim([0, 255])
             st.pyplot(fig)
 
 main()
